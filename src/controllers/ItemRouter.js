@@ -27,7 +27,7 @@ itemRouter.get('/', async (request, response) => {
     result = itemsWithStockInfo.filter((item) => item.lowStock);
   }
 
-  response.json(items);
+  response.json(result);
 });
 
 itemRouter.get('/:id', async (request, response) => {
