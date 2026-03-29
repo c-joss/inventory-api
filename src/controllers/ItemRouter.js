@@ -4,7 +4,7 @@ const { ItemModel } = require('../models/ItemModel');
 const itemRouter = express.Router();
 
 itemRouter.get('/', async (request, response) => {
-  const { category } = request.query;
+  const { category, lowStock } = request.query;
 
   let query = {};
 
@@ -13,6 +13,20 @@ itemRouter.get('/', async (request, response) => {
   }
 
   const items = await ItemModel.find(query);
+
+  const itemsWithStockInfo = items.map((item) => {
+    return {
+      ...item.toObject(),
+      lowStock: item.stockQuantity <= 5,
+    };
+  });
+
+  let result = itemsWithStockInfo;
+
+  if (lowStock === 'true') {
+    result = itemsWithStockInfo.filter((item) => item.lowStock);
+  }
+
   response.json(items);
 });
 
@@ -23,7 +37,10 @@ itemRouter.get('/:id', async (request, response) => {
     return response.status(404).json({ error: 'Item not found' });
   }
 
-  response.json(item);
+  response.json({
+    ...item.toObject(),
+    lowStock: item.stockQuantity <= 5,
+  });
 });
 
 itemRouter.post('/', async (request, response) => {
