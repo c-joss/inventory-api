@@ -42,4 +42,14 @@ itemRouter.patch('/:id', async (request, response) => {
   response.json(updatedItem);
 });
 
+itemRouter.delete('/:id', async (request, response) => {
+  const deletedItem = await ItemModel.findByIdAndDelete(request.params.id);
+
+  if (!deletedItem) {
+    return response.status(404).json({ error: 'Item not found' });
+  }
+
+  response.json({ message: 'Item deleted successfully' });
+});
+
 module.exports = itemRouter;
