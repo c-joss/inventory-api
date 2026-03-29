@@ -68,6 +68,20 @@ itemRouter.post('/', async (request, response) => {
 });
 
 itemRouter.patch('/:id', async (request, response) => {
+  const { name, category, stockQuantity } = request.body;
+
+  if (name === undefined && category === undefined && stockQuantity === undefined) {
+    return response.status(400).json({
+      error: 'At least one field must be provided to update',
+    });
+  }
+
+  if (stockQuantity !== undefined && stockQuantity < 0) {
+    return response.status(400).json({
+      error: 'stockQuantity must be 0 or greater',
+    });
+  }
+
   const updatedItem = await ItemModel.findByIdAndUpdate(request.params.id, request.body, {
     new: true,
   });
@@ -76,7 +90,10 @@ itemRouter.patch('/:id', async (request, response) => {
     return response.status(404).json({ error: 'Item not found' });
   }
 
-  response.json(updatedItem);
+  response.json({
+    ...updatedItem.toObject(),
+    lowStock: updatedItem.stockQuantity <= 5,
+  });
 });
 
 itemRouter.delete('/:id', async (request, response) => {
