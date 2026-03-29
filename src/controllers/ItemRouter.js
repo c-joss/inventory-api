@@ -8,6 +8,16 @@ itemRouter.get('/', async (request, response) => {
   response.json(items);
 });
 
+itemRouter.get('/:id', async (request, response) => {
+  const item = await ItemModel.findById(request.params.id);
+
+  if (!item) {
+    return response.status(404).json({ error: 'Item not found' });
+  }
+
+  response.json(item);
+});
+
 itemRouter.post('/', async (request, response) => {
   const { name, category, stockQuantity } = request.body;
 
