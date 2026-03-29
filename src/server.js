@@ -9,6 +9,10 @@ app.get('/', (request, response) => {
   response.json({ message: 'Inventory API running' });
 });
 
+app.get('/health', (request, response) => {
+  response.json({ status: 'OK' });
+});
+
 app.use('/items', itemRouter);
 
 module.exports = { app };
