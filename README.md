@@ -8,8 +8,10 @@ This project is a simple Node.js API for managing inventory items using Express 
 
 - Create, read, update and delete items
 - Filter items by category
-- Identify low stock items
+- Identify items with low stock
 - Seed the database with sample data
+- Validate input for create and update operations
+- Include a health check endpoint
 
 ---
 
@@ -59,6 +61,7 @@ http://localhost:3000
 | POST   | /items     | Create a new item       |
 | PATCH  | /items/:id | Update an existing item |
 | DELETE | /items/:id | Delete an item          |
+| GET    | /health    | Check API status        |
 
 ---
 
@@ -94,13 +97,15 @@ Example for `POST /items`:
 Example response from `GET /items`:
 
 ```json
-{
-  "_id": "exampleid123",
-  "name": "Iron Sword",
-  "category": "Weapon",
-  "stockQuantity": 3,
-  "lowStock": true
-}
+[
+  {
+    "_id": "69c8d843c12153f6d4551263",
+    "name": "Iron Sword",
+    "category": "Weapon",
+    "stockQuantity": 3,
+    "lowStock": true
+  }
+]
 ```
 
 Note: MongoDB also automatically adds an `_id` field to each item.
@@ -111,4 +116,3 @@ Note: MongoDB also automatically adds an `_id` field to each item.
 
 - Add authentication
 - Add pagination
-- Add input validation
