@@ -26,19 +26,32 @@ This project is a simple Node.js API for managing inventory items using Express 
 
 ## Setup Instructions
 
-### 1. Install dependencies
+### 1. Create a .env file
+
+```bash
+touch .env
+```
+
+Add the following:
+
+```env
+PORT=3000
+MONGODB_URI=mongodb://127.0.0.1:27017/inventory_api
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Seed the database
+### 3. Seed the database
 
 ```bash
 npm run seed
 ```
 
-### 3. Run the server
+### 4. Run the server
 
 ```bash
 npm run dev
