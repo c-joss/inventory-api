@@ -46,6 +46,18 @@ itemRouter.get('/:id', async (request, response) => {
 itemRouter.post('/', async (request, response) => {
   const { name, category, stockQuantity } = request.body;
 
+  if (!name || !category || stockQuantity === undefined) {
+    return response.status(400).json({
+      error: 'name, category and stockQuantity are required',
+    });
+  }
+
+  if (stockQuantity < 0) {
+    return response.status(400).json({
+      error: 'stockQuantity must be 0 or greater',
+    });
+  }
+
   const newItem = await ItemModel.create({
     name,
     category,
