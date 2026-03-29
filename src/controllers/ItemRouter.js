@@ -30,4 +30,16 @@ itemRouter.post('/', async (request, response) => {
   response.status(201).json(newItem);
 });
 
+itemRouter.patch('/:id', async (request, response) => {
+  const updatedItem = await ItemModel.findByIdAndUpdate(request.params.id, request.body, {
+    new: true,
+  });
+
+  if (!updatedItem) {
+    return response.status(404).json({ error: 'Item not found' });
+  }
+
+  response.json(updatedItem);
+});
+
 module.exports = itemRouter;
