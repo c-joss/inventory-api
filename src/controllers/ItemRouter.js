@@ -4,7 +4,15 @@ const { ItemModel } = require('../models/ItemModel');
 const itemRouter = express.Router();
 
 itemRouter.get('/', async (request, response) => {
-  const items = await ItemModel.find();
+  const { category } = request.query;
+
+  let query = {};
+
+  if (category) {
+    query.category = category;
+  }
+
+  const items = await ItemModel.find(query);
   response.json(items);
 });
 
